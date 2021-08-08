@@ -1,0 +1,20 @@
+After taking face pic 
+
+goto -> cvmodule(folder)
+
+check "Training_Faces" folder and check whether images present or not
+
+check training data folder -> inside this automatically created the folder of student with stud_id -> Inside stud_id check taken images present or not
+
+if both are correct
+
+run "create_csv.py" file bu cmd line
+
+after run this check "Training_Faces" again , it will be created in this folder
+
+user login credential will be:
+username = email id
+password = stud_id
+
+admin@gmail.com/Admin (pgAdmin)
+admin@gmail.com/Admin@123 (Sqllite)

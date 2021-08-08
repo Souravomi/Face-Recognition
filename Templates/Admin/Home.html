@@ -1,0 +1,78 @@
+{% extends 'Admin/Base_Admin.html' %}
+
+{% load static %}
+
+{% block content %}
+<br>
+<br>
+
+<div class="container">
+<div class="row">
+    <div class="col-3">
+        <a role="button" href="{% url 'View_Attandance' %}" class="btn btn-primary form-control active"><i class="fa fa-address-book"></i>  Goto Attandance</a>
+    </div>
+    <div class="col-3">
+        <a role="button" href="{% url 'New_Admission' %}"  class="btn btn-success form-control active"><i class="fa fa-user"> </i>  New Admission</a>
+    </div>
+    <div class="col-3">
+        <a role="button" href="{% url 'Search_Studant' %}"  class="btn btn-info form-control active"><i class="fa fa-search"> </i> Search/Edit Studants</a>
+    </div>
+    <div class="col-3">
+        <a role="button"  href="{% url 'Settings' %}"  class="btn btn-dark form-control active"><i class="fa fa-cog"> </i> Settings</a>
+    </div>
+</div>
+</div>
+
+<br>
+
+{% if messages %}
+       
+           {% for message in messages %}
+
+           <script>
+            alert("Data Updated")
+        </script>
+
+           {% endfor %}
+      
+       {% endif %}
+  
+<div class="container">
+<div class="row">
+    <div class="col-12">
+<center><span style="color:red"><h4><u>PENDING APPROVALS</u></h4></span></center>
+<br>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col"><center>No</center></th>
+        <th scope="col"><center>Name</center></th>
+        <th scope="col"><center>Student ID</center></th>
+        <th scope="col"><center>Date</center></th>
+        <th scope="col"><center>Reason</center></th>
+        <th  colspan="2"><center>Category</center></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for data in data %}
+      <tr>
+        <th scope="row"><center>{{ forloop.counter }}</center></th>
+        <td><center>{{data.Stud_Id.Name}}</center></td>
+        <td><center>{{data.Stud_Id.Stud_Id}}</center></td>
+        <td><center>{{data.Date}}</center></td>
+        <td><center>{{data.Reason}}</center></td>
+        <form method="POST">{% csrf_token %}
+          <input type="text" name="ID" value="{{data.id}}" hidden>
+        <td><center><button type="submit" name="ap" class="btn btn-outline-success"><i class="fa fa-thumbs-up"></i> Approve</button></center></td>
+        <td><center><button type="submit" name="rej" class="btn btn-outline-danger"><i class="fa fa-thumbs-down"></i> Reject</button></center></td>
+      </form>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  
+</div>
+</div>
+</div>
+
+{% endblock %}

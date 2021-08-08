@@ -1,0 +1,164 @@
+{% extends 'User/Base_Guest.html' %}
+
+
+{% block head %}
+
+<style>
+     
+  .alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    opacity: 1;
+    transition: opacity 0.6s;
+    margin-bottom: 15px;
+  }
+  
+  .alert.success {background-color: #4CAF50;}
+  .alert.info {background-color: #2196F3;}
+  .alert.warning {background-color: #ff9800;}
+  
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .closebtn:hover {
+    color: black;
+  }
+
+  .input-icons i { 
+     position: absolute; 
+ } 
+   
+ .input-icons { 
+     width: 100%; 
+     margin-bottom: 10px; 
+ } 
+   
+ .icon { 
+     padding: 10px; 
+     color: green; 
+     min-width: 50px; 
+     text-align: center; 
+ } 
+   
+ .input-field { 
+     width: 100%; 
+     padding: 10px; 
+     text-align: center; 
+ } 
+   
+ h2 { 
+     color: green; 
+ } 
+
+  </style>
+
+{% endblock %}
+
+
+
+{% block one %}
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<div class="row">
+    <div class="col-md-4">
+       <div class="">
+       </div>
+     </div>
+     
+     <div>
+     </div>
+     
+     
+    <div class="col-md-4">
+
+      {% if messages %}
+       
+           {% for message in messages %}
+
+           <div class="alert">
+            <span class="closebtn">&times;</span>  
+           <li class="nav-link" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+         </div>
+
+           {% endfor %}
+      
+       {% endif %}
+
+       <div class="card">
+          <div class="card-body">
+         <center>   <h2 class="card-title">LOGIN</h2></center> 
+              <hr>
+
+              <form action="{% url 'Login' %}" method="POST">
+                {% csrf_token %}
+                
+                <div class="input-icons"> 
+                  <i class="fa fa-envelope icon"> 
+                </i> 
+              <input class="form-control mr-sm-2 input-field" type="text" name="username" placeholder="E-mail" required><br>
+              </div>
+
+              <div class="input-icons"> 
+                <i class="fa fa-key icon"> 
+              </i> 
+              <input class="form-control mr-sm-2 input-field" type="password" name="password" placeholder="Password" required>
+            </div>
+        
+
+              <br>
+              <button type="submit" class="btn btn-success btn-md form-control" >Sign in</button>
+
+            </form>
+             
+          </div>
+       </div>
+       <br>
+       <br/>
+
+    </div>
+  
+          </div>
+
+
+
+          {% if messages %}
+
+<script>
+
+  var close = document.getElementsByClassName("closebtn");
+  var i;
+  
+  for (i = 0; i < close.length; i++) {
+    close[i].onclick = function(){
+      var div = this.parentElement;
+      div.style.opacity = "0";
+      setTimeout(function(){ div.style.display = "none"; }, 600);
+    }
+  }
+  </script>
+
+  {% endif %}
+
+
+
+
+
+
+{% endblock %}

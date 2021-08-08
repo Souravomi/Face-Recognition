@@ -1,0 +1,215 @@
+<!doctype html>
+{% load static%}
+<head>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{% static 'User/Base.css' %}" rel="stylesheet">
+     <script src="{% static 'User/js/jquery-3.2.1.min.js' %}" href="{% static 'User/js/jquery-3.2.1.min.js' %}"></script>
+
+    <style>
+    /* CSS comes here */
+    #video {
+        border: 1px solid black;
+        width: 320px;
+        height: 240px;
+    }
+
+    #photo {
+        border: 1px solid black;
+        width: 320px;
+        height: 240px;
+    }
+
+    #canvas {
+        display: none;
+    }
+
+    .camera {
+        width: 340px;
+        display: inline-block;
+    }
+
+    .output {
+        width: 340px;
+        display: inline-block;
+    }
+
+    
+
+    .contentarea {
+        font-size: 16px;
+        font-family: Arial;
+        text-align: center;
+    }
+    </style>
+    
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+       
+		<a class="navbar-brand" href="#"><p><h2>ADMIN</h2></p></a>
+		<input type="text" value="{{ id }}" id="stud" hidden>
+       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+       <span class="navbar-toggler-icon"></span>
+       </button>
+       <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		   
+          <ul class="navbar-nav mr-auto">
+             
+             
+			  
+           
+			  <li>
+			  </li>		  
+          </ul>
+          <li class="nav-link"><a href="{% url 'Main' %}" class="btn btn-success btn-md"><i class="fa fa-home"></i> Home</a></li>
+          <li class="nav-link"><a href="{% url 'Logout' %}" class="btn btn-danger  btn-md"><i class="fa fa-sign-out"></i> Logout</a></li>
+
+       </div>
+    </nav>
+    {% if messages %}
+       
+           {% for message in messages %}
+
+           <script>
+            alert("Not Able To Detect Your Face")
+        </script>
+
+           {% endfor %}
+           {% endif %}
+    <div class="contentarea">
+        <h1>
+        </h1>
+        <div class="camera">
+            <video id="video">Video stream not available.</video>
+        </div>
+        <div><button id="startbutton" class="btn btn-success mt-2 mb-2">Take photo</button></div>
+        <canvas id="canvas"></canvas>
+        <div class="output">
+            <img id="photo" alt="The screen capture will appear in this box.">
+        </div>
+    </div>
+
+    <script>
+    /* JS comes here */
+    (function() {
+
+        var width = 250; // We will scale the photo width to this
+        var height = 0; // This will be computed based on the input stream
+
+        var streaming = false;
+
+        var video = null;
+        var canvas = null;
+        var photo = null;
+        var startbutton = null;
+
+        function startup() {
+            video = document.getElementById('video');
+            canvas = document.getElementById('canvas');
+            photo = document.getElementById('photo');
+            startbutton = document.getElementById('startbutton');
+
+            navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: false
+                })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(function(err) {
+                    console.log("An error occurred: " + err);
+                });
+
+            video.addEventListener('canplay', function(ev) {
+                if (!streaming) {
+                    height = video.videoHeight / (video.videoWidth / width);
+
+                    if (isNaN(height)) {
+                        height = width / (4 / 3);
+                    }
+
+                    video.setAttribute('width', width);
+                    video.setAttribute('height', height);
+                    canvas.setAttribute('width', width);
+                    canvas.setAttribute('height', height);
+                    streaming = true;
+                }
+            }, false);
+
+            startbutton.addEventListener('click', function(ev) {
+                takepicture();
+                ev.preventDefault();
+            }, false);
+
+            clearphoto();
+        }
+
+
+        function clearphoto() {
+            var context = canvas.getContext('2d');
+            context.fillStyle = "#AAA";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            var data = canvas.toDataURL('image/png');
+            photo.setAttribute('src', data);
+        }
+       
+        function takepicture() {
+            var context = canvas.getContext('2d');
+            if (width && height) {
+                canvas.width = width;
+                canvas.height = height;
+                context.drawImage(video, 0, 0, width, height);
+
+                var data = canvas.toDataURL('image/png');
+                sendDataForTraining(data)
+
+                photo.setAttribute('src', data);
+            } else {
+                clearphoto();
+            }
+        }
+
+        window.addEventListener('load', startup, false);
+    })();
+
+ function sendDataForTraining(TrainFace)
+        {
+            var id = $('#stud').val()
+            $.ajax({
+        url: '/ImageRecog/SaveImage/',
+        type: 'POST',
+        data: {
+            "TrainFace": TrainFace,
+            "id":id
+
+        },
+        dataType: 'json'
+    }).done(function(data) {
+        console.log("data sent to server ......")
+    }
+        );
+        
+        }
+       
+
+    </script>
+
+    <script>
+
+      var close = document.getElementsByClassName("closebtn");
+      var i;
+      
+      for (i = 0; i < close.length; i++) {
+        close[i].onclick = function(){
+          var div = this.parentElement;
+          div.style.opacity = "0";
+          setTimeout(function(){ div.style.display = "none"; }, 600);
+        }
+      }
+      </script>
+</body>
+
+</html>

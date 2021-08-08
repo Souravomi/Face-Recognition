@@ -1,0 +1,45 @@
+{% extends 'User/Base_Guest.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container mt-5" style="display: flex;
+justify-content: center">
+
+<div class="row justify-content-center">
+  <div class ="mt-2 mb-2 ml-2 mr-2"></div>
+
+  <div class=" card shadow p-3 mb-5 " style="width: 18rem;">
+    <img class="card-img-top" src="{% static 'images/icons/add-user.svg'%}" alt="Card image cap" height="150px">
+    <div class="card-body">
+      <h5 class="card-title">Profile</h5>
+      <p class="card-text">View / Edit Your Profile Details</p>
+      <a href="{% url 'Profile' %}"class="btn btn-primary" >View Profile</a>
+    </div>
+  </div>
+  
+  <div class ="mt-2 mb-2 ml-2 mr-2"></div>
+
+  <div class="card shadow p-3 mb-5" style="width: 18rem;">
+    <img class="card-img-top" src="{% static 'images/icons/document.svg'%}" alt="Card image cap" height="150px">
+    <div class="card-body">
+      <h5 class="card-title">Add Attandance</h5>
+      <p class="card-text">Put Your Attandance Data</p>
+      <a href="{% url 'MarkAttendance' %}" class="btn btn-primary">Add Attandance</a>
+    </div> 
+  </div>
+
+  <div class ="mt-2 mb-2 ml-2 mr-2"></div>
+  
+<div class="card shadow p-3 mb-5 " style="width: 18rem;">
+    <img class="card-img-top" src="{% static 'images/icons/binoculars.svg'%}" alt="Card image cap" height="150px">
+    <div class="card-body">
+      <h5 class="card-title">View Attandance</h5>
+      <p class="card-text">View / Search Your Previuos Attandance Data</p>
+      <a href="{% url 'Search' %}" class="btn btn-primary">View Attandanace</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

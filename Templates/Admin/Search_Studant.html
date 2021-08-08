@@ -1,0 +1,84 @@
+{% extends 'Admin/Base_Admin.html' %}
+
+{% load static %}
+
+{% block content %}
+
+  <br>
+
+  <center><span style="color:red"><h2><u>SEARCH STUDANT DETAILS</u></h2></span></center>
+  <br>
+
+  <div class="container">
+
+    <form action="{% url 'Search_Studant' %}" method="POST">
+      {% csrf_token %}
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-4">
+        <input class="form-control mr-sm-2" name="Id_num" type="text" placeholder="Id Number" required>
+      </div>
+      <div class="col-2">
+        <button type="submit" class="btn btn-primary btn-md" >Search</button>
+      </div>
+    </div>
+  </form>
+    <hr>
+
+
+    {% if messages %}
+       
+           {% for message in messages %}
+
+           <script>
+            alert("No Records Found")
+        </script>
+
+           {% endfor %}
+      
+       {% endif %}
+
+    <div class="row">
+        <div class="col-12">
+    
+    <br>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col"><center>No</center></th>
+            <th scope="col"><center>Student ID</center></th>
+            <th scope="col"><center>Name</center></th>
+            <th scope="col"><center>Course</center></th>
+            <th scope="col"><center>Programm</center></th>
+            <th scope="col"><center>Joined</center></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for data in data %}
+          <tr>
+            <th scope="row"><center>{{ forloop.counter }}</center></th>
+           
+             <form method="GET" action="{% url 'Edit_Studant'   %}">
+               <input type = "text"  hidden value="{{ data.Stud_Id.Stud_Id }}" name="fieldkey">
+            <td><center><button type="submit" class="btn btn-link btn-md" >{{ data.Stud_Id.Stud_Id }}</button></center></td>
+            </form>
+
+            <td><center>{{ data.Stud_Id.Name }}</center></td>
+            <td><center>{{ data.Course }}</center></td>
+            <td><center>{{ data.Program }}</center></td>
+            <td><center>{{ data.Created }}</center></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    
+    </div>
+    </div>
+    </div>
+
+<br>
+
+<br>
+
+
+{% endblock %}

@@ -1,0 +1,10 @@
+django
+pillow
+pandas
+numpy
+cv2
+psycopg2
+xlwt
+xlutils
+opencv-python
+opencv-contrib-python

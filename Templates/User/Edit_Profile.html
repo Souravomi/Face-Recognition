@@ -1,0 +1,107 @@
+{% extends 'User/Base_Guest.html' %}
+
+{% load static %}
+
+{% block content %}
+
+      {% if messages %}
+      {% for message in messages %}
+      <br>
+      <div class="alert success">
+       <span class="closebtn">&times;</span>  
+      <li class="nav-link" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    </div>
+    <br>
+      {% endfor %}
+  {% endif %}
+
+  
+
+       <div class="container">
+        <br>
+
+        <form action="{% url 'EditProfile' %}" method="POST">
+         {% csrf_token %}
+
+        <div class="row">
+
+           <div class="col-md-4">
+              <div class="card">
+
+                <img class="card-img-top" src="{{ val.image.url }}" alt="Card image cap"  height="320"/>
+
+                 <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="fa fa-home"style="color:green"> </i><a href="{% url 'Home' %}" class="card-link">   Home</a></li>
+                    <li class="list-group-item"> <i class="fa fa-user" style="color:green"> </i><a href="{% url 'Profile' %}" class="card-link">    Profile Details</a></li>
+                    <li class="list-group-item"><i class="fa fa-edit" style="color:green"> </i><a href="{% url 'EditProfile' %}" class="card-link">   Edit Profile</a></li>
+                     <li class="list-group-item"><i class="fa fa-cog" style="color:green"> </i><a href="{% url 'Services' %}" class="card-link">   Serivice & Security</a></li>
+                     <li class="list-group-item"><i class="fa fa-sign-out"style="color:green"> </i><a href="{% url 'Logout' %}" class="card-link">   Logout</a></li>
+                 </ul>
+                 
+              </div>
+           </div>
+
+           <div class="col-md">
+            <div class="card">
+              <div class="card-body">
+                  <center><h4 class="card-title">EDIT PROFILE DETAILS</h4></center>
+                  
+                   <hr>
+                   <div class="row">
+                       <div class="col-md">
+                       <div class="">
+                       <div class="card-body">
+                    <label><strong>Profile ID :</strong></label>
+                   <input class="form-control mr-sm-2" type="text"  readonly  value="{{ val.Stud_Id }}">
+                   <label><strong>Gender :</strong></label>
+                   <input class="form-control mr-sm-2" type="text"  disabled value="{{ val.Gender }}">
+                   <label><strong>Address 1 :</strong></label>
+                   <input class="form-control mr-sm-2" type="text" name="addr1" value="{{ val.Addr_1 }}">
+                   <label><strong>Address 3  :</strong></label>
+                   <input class="form-control mr-sm-2" type="text" name="addr3"  value="{{ val.Addr_3 }}">
+                   <label><strong>Phone :</strong></label>
+                   <input class="form-control mr-sm-2" type="text" name="mob" value="{{ val.Mobile }}" maxlength="10" required pattern="[1-9]{1}[0-9]{9}" title="Please Enter Valid Number">
+                   <br>
+                   <input type="submit" value="UPDATE" class="btn btn-success form-control">
+                   </div>
+                   </div>
+                   
+                   </div>
+                   
+                   <div class="col-md">
+                       <div class="">
+                       <div class="card-body">
+                    <label><strong>Full Name :</strong></label>
+                   <input class="form-control mr-sm-2" type="text" disabled value="{{ val.Name }}" >
+                   <label><strong>Date Of Birth :</strong></label>
+                   <input class="form-control mr-sm-2" type="text" disabled  value="{{ val.DOB }}" >
+                   <label><strong>Address 2 :</strong></label>
+                   <input class="form-control mr-sm-2" type="text" name="addr2" value="{{ val.Addr_2 }}" >
+                   <label><strong>Pincode :</strong></label>
+                   <input class="form-control mr-sm-2" type="text" name="pin"  value="{{ val.Pincode }}" maxlength="6" required pattern="[1-9]{1}[0-9]{5}" title="Please Enter Valid Picode" >
+                   <label><strong>Email :</strong></label>
+                   <input class="form-control mr-sm-2" type="text" readonly value="{{ val.Email }}" >
+                   <br>
+                   <a href="{% url 'Profile' %}" class="btn btn-danger form-control">CANCEL</a>
+
+               </div>
+            </div>
+  
+         </div>     
+         </div>
+                  </div>
+                </div>
+              </div>
+           
+      </div>
+   </form>
+             
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+
+    
+{% endblock %}

@@ -1,0 +1,172 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+     <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+      <script src="{% static 'js/search.js' %}"></script>
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search Attandance</title>
+
+    <!-- Bootstrap -->
+    <link href="{% static 'User/Base.css' %}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/popup.css' %}">
+
+  </head>
+  <body >
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+       
+      <a class="navbar-brand" href="#"><p></p></a>  <span> <h1 style="color:white">| </h1> </span> <b style="color:white">  &nbsp; &nbsp; Attandance Search</b>
+     
+     
+      
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+         
+            <ul class="navbar-nav mr-auto">
+            
+          <li>
+          </li>		  
+            </ul>
+              
+            <form class="form-inline my-2 my-lg-0">
+              <li class="nav-link"> <a  href="{% url 'Home' %}">  
+                <i class="fa fa-home" style="font-size: 32px; color:white;"></i>
+              </a>
+               </li> 
+
+             <li class="nav-link"> <a  href="{% url 'Logout' %}">  
+              <i class="fas fa-sign-out-alt" style="font-size: 32px; color:white;"></i>
+            </a>
+             </li> 
+             
+       </form>
+         </div>
+      </nav>
+ 
+
+<div class="container">
+
+
+<br>
+<br>
+             
+    </div>
+
+    <form action="" method="POST">
+      {% csrf_token %}
+    <div class="row">
+      <div class="col-3">
+      </div>
+      <div class="col-3">
+      <div class="form-group mx-sm-3 mb-2">
+        <select class="custom-select" id="month" name="month" required>
+        <option value="" disabled selected>Select Month</option>
+         <option value="01">January</option>
+         <option value="02">February</option>
+         <option value="03">March</option>
+         <option value="04">April</option>
+         <option value="05">May</option>
+         <option value="06">June</option>
+         <option value="07">July</option>
+         <option value="08">August</option>
+         <option value="09">September</option>
+         <option value="10">October</option>
+         <option value="11">November</option>
+         <option value="12">December</option>
+       </select>
+      </div>
+    </div>
+    <div class="col-3">
+      <input type="submit" value="Search" class="btn btn-primary mb-2">
+    </div>
+    </div>
+  </form>
+
+
+    <div class="container">
+      
+      <div class="row">
+      <label><strong><span style="color:#534d4d">Search Details :</span></strong></label>
+
+      <table class="table table-bordered table-hover table-responsive-lg">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Name</th>
+              <th scope="col">Date</th>
+              <th scope="col">Attandance</th>
+              <th scope="col">Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for data in data %}
+            
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ data.Stud_Id.Name }}</td>
+              <td>{{ data.Date }}</td>
+              <td>{{ data.Active }}</td>
+              <td>{{ data.Reason}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+
+        <nav aria-label="...">
+          <ul class="pagination pagination-sm">
+            
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            {% for i in paginator.page_range %}
+            <li class="page-item {% if i == page_obj.number %} active {% endif %}">
+              <a class="page-link" href="?page={{ i }}">{{i}}</a>
+            </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+            {% endif %}
+            
+          </ul>
+        </nav>
+
+        </div>
+        </div>
+
+
+    <br>
+
+         <!-- Message button --> 
+         <script>
+        
+          var close = document.getElementsByClassName("closebtn");
+          var i;
+          
+          for (i = 0; i < close.length; i++) {
+            close[i].onclick = function(){
+              var div = this.parentElement;
+              div.style.opacity = "0";
+              setTimeout(function(){ div.style.display = "none"; }, 600);
+            }
+          }
+          </script>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+    <script src="{% static 'User/js/jquery-3.2.1.min.js' %}"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed --> 
+    <script src="{% static 'User/js/popper.min.js' %}"></script>
+    <script src="{% static 'User/js/bootstrap-4.0.0.js' %}"></script>
+    
+  </body>
+</html>
